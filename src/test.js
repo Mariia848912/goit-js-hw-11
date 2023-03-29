@@ -41,11 +41,8 @@ async function fetchImg() {
   }
 }
 function checkEndList(data) {
-  const { totalHits, hits } = data;
-  if (
-    totalHits <= (newApiService.page - 1) * newApiService.perPage &&
-    hits.length > 0
-  ) {
+  const { totalHits } = data;
+  if (totalHits <= (newApiService.page - 1) * newApiService.perPage) {
     hideBtn();
 
     return Notiflix.Notify.info(
@@ -66,10 +63,13 @@ function checkData(data) {
 }
 
 function createNotifTotalHits(data) {
-  const { totalHits, hits } = data;
-  if (newApiService.page === 2 && hits.length > 0) {
+  const { totalHits } = data;
+  if (newApiService.page === 2) {
     return Notiflix.Notify.info(`Hooray! We found ${totalHits} images..`);
   }
+}
+function clearMarkup() {
+  refs.boxImg.innerHTML = '';
 }
 
 function makeMarkup(hits) {
@@ -101,21 +101,10 @@ function makeMarkup(hits) {
       }
     )
     .join('');
+  //   simpleLightbox.refresh();
 
   refs.boxImg.insertAdjacentHTML('beforeend', markUp);
   showBtn();
-
-  if (newApiService.page > 2) {
-    scroll();
-  }
-
-  //   initInfinityLoading(hits);
-}
-
-function clearMarkup() {
-  refs.boxImg.innerHTML = '';
-}
-function scroll() {
   const { height: cardHeight } = document
     .querySelector('.gallery')
     .firstElementChild.getBoundingClientRect();
@@ -124,6 +113,8 @@ function scroll() {
     top: cardHeight * 2,
     behavior: 'smooth',
   });
+
+  // initInfinityLoading(hits);
 }
 
 function initInfinityLoading(hits) {
@@ -151,10 +142,30 @@ function showBtn() {
 function hideBtn() {
   refs.btn.classList.add('is-hidden');
 }
-
-//SimpleLightbox
 let simpleLightbox = new SimpleLightbox('.photo-card a', {
   //   overlayOpacity: 0.5,
   //   captionsData: 'alt',
   //   captionDelay: 250,
 });
+// e.target.reset();
+/*
+<a class="gallery__link" href="${largeImageURL}>
+        <div class="photo-card">
+  <img src="${webformatURL}" alt="${tags}" loading="lazy" />
+  <div class="info">
+    <p class="info-item">
+      <b>Likes</b> ${likes}
+    </p>
+    <p class="info-item">
+      <b>Views</b> ${views}
+    </p>
+    <p class="info-item">
+      <b>Comments</b> ${comments}
+    </p>
+    <p class="info-item">
+      <b>Downloads</b> ${downloads}
+    </p>
+  </div>
+</div>
+</a>
+*/
