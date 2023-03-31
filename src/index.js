@@ -20,8 +20,11 @@ refs.btn.addEventListener('click', fetchImg);
 function onSearch(evt) {
   evt.preventDefault();
 
-  newApiService.query = evt.currentTarget.elements.searchQuery.value;
-
+  newApiService.query = evt.currentTarget.elements.searchQuery.value.trim();
+  if (!newApiService.query) {
+    Notiflix.Notify.failure('Please clarify your search');
+    return;
+  }
   clearMarkup();
   newApiService.resetPage();
   fetchImg();
