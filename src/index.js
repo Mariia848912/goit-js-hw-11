@@ -1,9 +1,7 @@
 import './css/styles.css';
 import Notiflix from 'notiflix';
 import NewApiService from './js/pixabay-api-service';
-// Описан в документации
 import SimpleLightbox from 'simplelightbox';
-// Дополнительный импорт стилей
 import 'simplelightbox/dist/simple-lightbox.min.css';
 
 const refs = {
@@ -34,7 +32,6 @@ async function fetchImg() {
   hideBtn();
   try {
     const data = await newApiService.fetchImg();
-    // console.log(data);
     checkData(data);
     createNotifTotalHits(data);
     checkEndList(data);
@@ -59,7 +56,6 @@ function checkEndList(data) {
 
 function checkData(data) {
   const { hits } = data;
-  //   console.log('hy');
   if (hits.length === 0) {
     return Notiflix.Notify.failure(
       'Sorry, there are no images matching your search query. Please try again.'
@@ -76,7 +72,6 @@ function createNotifTotalHits(data) {
 }
 
 function makeMarkup(hits) {
-  //   console.log(hits);
   const markUp = hits
     .map(
       ({
@@ -156,8 +151,4 @@ function hideBtn() {
 }
 
 //SimpleLightbox
-let simpleLightbox = new SimpleLightbox('.photo-card a', {
-  //   overlayOpacity: 0.5,
-  //   captionsData: 'alt',
-  //   captionDelay: 250,
-});
+let simpleLightbox = new SimpleLightbox('.photo-card a', {});
